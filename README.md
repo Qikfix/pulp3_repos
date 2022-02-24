@@ -124,5 +124,7 @@ NOte. Above we can see this is related to the CV `cv_tools_6_7` and also some fi
 ...
 ```
 
+For this script, it's not necessary to pass any parameter, just execute it and if you want, redirect the output to a log file.
+
 I hope this helps.
 Waldirio
