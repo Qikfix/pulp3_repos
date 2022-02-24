@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# 
+# License ......: GPL
+# Developer ....: Waldirio M Pinheiro <waldirio@gmail.com> | <waldirio@redhat.com>
+# Date .........: 02/24/2022
+# Purpose ......: To extract the information from Postgres regarding to pulp3 (repos, content views, packages)
+# 
+
 path_of_repos=$(echo "select base_path from core_distribution" | su - postgres -c "psql pulpcore" | sed '1,2d' | grep -v ^$ | grep -v ^\( | sed -e 's/^ //g')
 
 for b in $path_of_repos
