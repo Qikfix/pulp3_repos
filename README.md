@@ -126,5 +126,30 @@ NOte. Above we can see this is related to the CV `cv_tools_6_7` and also some fi
 
 For this script, it's not necessary to pass any parameter, just execute it and if you want, redirect the output to a log file.
 
+
+```
+...
+# ./pulp3_repo_list.sh 
+- ACME/Library/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os
+                                     base_path                                     |                                         relative_path                                          |                                    file                                    
+-----------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------
+ ACME/Library/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os | repodata/repomd.xml                                                                            | artifact/6d/7df7014df5f79d5f3c7a2885079710e4e75a88a2a0286eb7c5a158f3c54e43
+ ACME/Library/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os | repodata/e0cf5275a73750214957dff0a09e605c2c4c15d7a383b424b1a11f874d3460a3-comps.xml            | artifact/e0/cf5275a73750214957dff0a09e605c2c4c15d7a383b424b1a11f874d3460a3
+ ACME/Library/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os | repodata/5f0ad662c80d94a3cc74de92c253c319d4cc734514edcf4df9b7243a5ae7ed42-primary.sqlite.bz2   | artifact/5f/0ad662c80d94a3cc74de92c253c319d4cc734514edcf4df9b7243a5ae7ed42
+...
+- ACME/prod/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os
+                                   base_path                                    |                                         relative_path                                          |                                    file                                    
+--------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------
+ ACME/prod/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os | repodata/repomd.xml                                                                            | artifact/6d/7df7014df5f79d5f3c7a2885079710e4e75a88a2a0286eb7c5a158f3c54e43
+ ACME/prod/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os | repodata/e0cf5275a73750214957dff0a09e605c2c4c15d7a383b424b1a11f874d3460a3-comps.xml            | artifact/e0/cf5275a73750214957dff0a09e605c2c4c15d7a383b424b1a11f874d3460a3
+...
+- ACME/Library/cv_rhel8tools_zabbix/custom/zabbix/zabbix
+                       base_path                        |                                         relative_path                                          |                                    file                                    
+--------------------------------------------------------+------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------
+ ACME/Library/cv_rhel8tools_zabbix/custom/zabbix/zabbix | repodata/repomd.xml                                                                            | artifact/f6/28bdd9a18d0a50ec1ba71e1fe8018c2635c4207f53364b0ee90f459b11c260
+ ACME/Library/cv_rhel8tools_zabbix/custom/zabbix/zabbix | repodata/1e2dc0abc42c959e219c2dfe9895d281688ad999e3fd062a8a35eb62a8e07955-filelists.xml.gz     | artifact/1e/2dc0abc42c959e219c2dfe9895d281688ad999e3fd062a8a35eb62a8e07955
+...
+```
+
 I hope this helps.
 Waldirio
