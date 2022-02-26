@@ -97,4 +97,5 @@ Anything else that you believe to be interesting, please, don't hesitate to requ
 Here you can see the [changelog](https://github.com/waldirio/satellite_tricks/Changelog.md)
 
 Thank you and I hope this helps.
+
 Waldirio
