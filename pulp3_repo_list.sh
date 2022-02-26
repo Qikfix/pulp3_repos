@@ -30,31 +30,40 @@ main()
 
 basic_info()
 {
+  echo "#######################" >> $REPORT_FILE
+  echo "Basic Pulp3 Information" >> $REPORT_FILE
+  echo "#######################" >> $REPORT_FILE
+  echo "" >> $REPORT_FILE
+
   org_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f1 | sed -e 's/^- //g' | sort -u) 
   lifecycle_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f2 | sed -e 's/^- //g' | sort -u) 
   cv_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f3 | sed -e 's/^- //g' | grep -v -E '(^content$|^custom$)'| sort -u)
-  echo "## Basic Pulp3 Information">> $REPORT_FILE
-  echo 				>> $REPORT_FILE
-  echo "# Organization(s)" 	>> $REPORT_FILE
-  echo "$org_name" 		>> $REPORT_FILE
-  echo 				>> $REPORT_FILE
-  echo "# LifeCycle(s)" 	>> $REPORT_FILE
-  echo "$lifecycle_name" 	>> $REPORT_FILE
-  echo 				>> $REPORT_FILE
-  echo "# Content View(s)" 	>> $REPORT_FILE
-  echo "$cv_name" 		>> $REPORT_FILE
-  echo 				>> $REPORT_FILE
-  echo $LINE 			>> $REPORT_FILE
+
+
+  echo "# Organization(s)" >> $REPORT_FILE
+  echo "$org_name" >> $REPORT_FILE
+  echo >> $REPORT_FILE
+  echo "# LifeCycle(s)" >> $REPORT_FILE
+  echo "$lifecycle_name" >> $REPORT_FILE
+  echo >> $REPORT_FILE
+  echo "# Content View(s)" >> $REPORT_FILE
+  echo "$cv_name" >> $REPORT_FILE
+  echo >> $REPORT_FILE
+  echo >> $REPORT_FILE
+  echo >> $REPORT_FILE
 }
 
 detailed_repo_info()
 {
-  #set -x
-  echo "# Individual Repositories"	>> $REPORT_FILE
+  echo "#######################################" >> $REPORT_FILE
+  echo "Presentation of Individual Repositories" >> $REPORT_FILE
+  echo "#######################################" >> $REPORT_FILE
+  echo "" >> $REPORT_FILE
+
   repo_list=$(cat $STD_FILE | grep "^- " | sed -e 's/^- //g')
   for b in $repo_list
   do
-    echo - $b 				>> $REPORT_FILE
+    echo - $b >> $REPORT_FILE
 
     PULP_PATH="/var/lib/pulp/media"
 
@@ -67,15 +76,21 @@ detailed_repo_info()
     echo "Number of RPM in the Metadata ..: $number_of_packages_metadata" >> $REPORT_FILE
     echo "Number of RPM in the DB ........: $number_of_packages" >> $REPORT_FILE
 
-    echo 				>> $REPORT_FILE
+    echo >> $REPORT_FILE
 
   done
-  echo $LINE >> $REPORT_FILE
+  echo >> $REPORT_FILE
+  echo >> $REPORT_FILE
 
 }
 
 general_cv_info()
 {
+  echo "#####################################################" >> $REPORT_FILE
+  echo "Presentation of Content View / Composite Content View" >> $REPORT_FILE
+  echo "#####################################################" >> $REPORT_FILE
+  echo "" >> $REPORT_FILE
+
   org_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f1 | sed -e 's/^- //g' | sort -u) 
   lifecycle_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f2 | sed -e 's/^- //g' | sort -u) 
   cv_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f3 | sed -e 's/^- //g' | grep -v -E '(^content$|^custom$)'| sort -u)
@@ -90,15 +105,11 @@ general_cv_info()
         count_entry=$(grep -A2 "$full_filter" $REPORT_FILE | wc -l)
 
         if [ $count_entry -ne 0 ]; then
-          echo "# Organization(s)" >> $REPORT_FILE
-          echo "  $org" >> $REPORT_FILE
-          echo "# LifeCycle(s)" >> $REPORT_FILE
-          echo "  $lfc" >> $REPORT_FILE
-          echo "# Content View(s)" >> $REPORT_FILE
-          echo "  $cv" >> $REPORT_FILE
+          echo "Organization ...................: $org" >> $REPORT_FILE
+          echo "LifeCycle ......................: $lfc" >> $REPORT_FILE
+          echo "Content View ...................: $cv" >> $REPORT_FILE
           total_cv_metadata=$(grep -A2 "$full_filter" $REPORT_FILE | grep Metadata | awk '{print $NF}' | paste -s -d+ | bc)
           total_cv_DB=$(grep -A2 "$full_filter" $REPORT_FILE | grep DB | awk '{print $NF}' | paste -s -d+ | bc)
-          echo >> $REPORT_FILE
           echo "Number of RPM in the Metadata ..: $total_cv_metadata" >> $REPORT_FILE
           echo "Number of RPM in the DB ........: $total_cv_DB" >> $REPORT_FILE
           echo "---" >> $REPORT_FILE
@@ -106,12 +117,7 @@ general_cv_info()
 
       done
     done
-  done 
-
-
-
-
-  echo $LINE >> $REPORT_FILE
+  done
 }
 
 
