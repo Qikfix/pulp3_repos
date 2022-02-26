@@ -7,7 +7,6 @@
 # Purpose ......: To extract the information from Postgres regarding to pulp3 (repos, content views, packages)
 # 
 
-LINE="-------------------------------------------------------------------------------"
 STD_FILE="/var/log/pulp3_content_info.log"
 REPORT_FILE="/var/log/pulp3_report_info.log"
 > $STD_FILE
@@ -120,6 +119,12 @@ general_cv_info()
   done
 }
 
+final()
+{
+  echo "Please, upload to Red Hat the files in a sequence:"
+  echo "  - $STD_FILE"
+  echo "  - $REPORT_FILE"
+}
 
 
 # Main
@@ -128,3 +133,4 @@ main
 basic_info
 detailed_repo_info
 general_cv_info
+final
