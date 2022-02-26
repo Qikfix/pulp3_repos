@@ -94,7 +94,7 @@ Number of RPM in the DB ........: 62
 
 Anything else that you believe to be interesting, please, don't hesitate to request via Issue! :-)
 
-Here you can see the [changelog](https://github.com/waldirio/satellite_tricks/Changelog.md)
+Here you can see the [changelog](https://github.com/waldirio/satellite_tricks/blob/enhancement/Changelog.md)
 
 Thank you and I hope this helps.
 
