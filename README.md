@@ -78,18 +78,13 @@ Number of RPM in the DB ........: 12
 Presentation of Content View / Composite Content View
 #####################################################
 
-Organization ...................: ACME
-LifeCycle ......................: Library
-Content View ...................: cv_rhel8tools_zabbix
-Number of RPM in the Metadata ..: 22
-Number of RPM in the DB ........: 22
----
-Organization ...................: ACME
-LifeCycle ......................: Library
-Content View ...................: cv_tools
-Number of RPM in the Metadata ..: 62
-Number of RPM in the DB ........: 62
+Organization  LifeCycle  Content_View  		RPM_Count_in_Metadata  RPM_Count_in_DB
+------------  ---------  ------------  		---------------------  ---------------
+ACME          Library    cv_rhel8tools_zabbix   22                     22
+ACME          Library    cv_tools	        62                     62
 ...
+
+------ End of Report ------
 ```
 
 Anything else that you believe to be interesting, please, don't hesitate to request via Issue! :-)

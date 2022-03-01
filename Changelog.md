@@ -1,3 +1,5 @@
+- 03/01/2022
+  - Fixed the Orientation of CV\CCV data presentation part to show in a tabular format (Sayan Das)
 - 02/26/2022
   - Adding some builtin analysis that will provide insights and general information
   - Creating two files as output
