@@ -89,7 +89,7 @@ ACME          Library    cv_tools	        62                     62
 
 Anything else that you believe to be interesting, please, don't hesitate to request via Issue! :-)
 
-Here you can see the [changelog](https://github.com/waldirio/satellite_tricks/blob/enhancement/Changelog.md)
+Here you can see the [changelog](https://github.com/waldirio/satellite_tricks/blob/main/Changelog.md)
 
 Thank you and I hope this helps.
 
