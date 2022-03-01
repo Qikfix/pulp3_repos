@@ -9,8 +9,10 @@
 
 STD_FILE="/var/log/pulp3_content_info.log"
 REPORT_FILE="/var/log/pulp3_report_info.log"
+TEMP_FILE="/var/tmp/pulp3_report_tmpdata.txt"
 > $STD_FILE
 > $REPORT_FILE
+> $TEMP_FILE
 
 main()
 {
@@ -94,6 +96,9 @@ general_cv_info()
   lifecycle_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f2 | sed -e 's/^- //g' | sort -u) 
   cv_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f3 | sed -e 's/^- //g' | grep -v -E '(^content$|^custom$)'| sort -u)
  
+  echo -e "Organization\tLifeCycle\tContent_View\tRPM_Count_in_Metadata\tRPM_Count_in_DB" >> $TEMP_FILE
+  echo -e "------------\t---------\t------------\t---------------------\t---------------" >> $TEMP_FILE
+
   for org in $org_name
   do
     for lfc in $lifecycle_name
@@ -104,19 +109,17 @@ general_cv_info()
         count_entry=$(grep -A2 "$full_filter" $REPORT_FILE | wc -l)
 
         if [ $count_entry -ne 0 ]; then
-          echo "Organization ...................: $org" >> $REPORT_FILE
-          echo "LifeCycle ......................: $lfc" >> $REPORT_FILE
-          echo "Content View ...................: $cv" >> $REPORT_FILE
           total_cv_metadata=$(grep -A2 "$full_filter" $REPORT_FILE | grep Metadata | awk '{print $NF}' | paste -s -d+ | bc)
           total_cv_DB=$(grep -A2 "$full_filter" $REPORT_FILE | grep DB | awk '{print $NF}' | paste -s -d+ | bc)
-          echo "Number of RPM in the Metadata ..: $total_cv_metadata" >> $REPORT_FILE
-          echo "Number of RPM in the DB ........: $total_cv_DB" >> $REPORT_FILE
-          echo "---" >> $REPORT_FILE
+	  echo -e "$org\t$lfc\t$cv\t$total_cv_metadata\t$total_cv_DB"
         fi
 
       done
     done
-  done
+  done >> $TEMP_FILE
+  cat $TEMP_FILE | column -t  >> $REPORT_FILE 
+  rm -f $TEMP_FILE
+  echo -e "\n------ End of Report ------" >> $REPORT_FILE
 }
 
 final()
