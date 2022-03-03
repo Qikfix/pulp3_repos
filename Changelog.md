@@ -1,3 +1,5 @@
+- 03/04/2022
+  - Fixed orientation of repo section as well to show them in the tabular format and ensures that errors are redirected to `/dev/null`
 - 03/01/2022
   - Fixed the Orientation of CV\CCV data presentation part to show in a tabular format (Sayan Das)
 - 02/26/2022

@@ -41,18 +41,17 @@ And the file `/var/log/pulp3_report_info.log` will be a summary of the pulp3 dat
 Basic Pulp3 Information
 #######################
 
-# Organization(s)
+# Organization(s):
+------------------
 ACME
 
-# LifeCycle(s)
-Library
-prod
+# LifeCycle(s):
+---------------
+Library , prod
 
-# Content View(s)
-cv_rhel8tools_zabbix
-cv_tools
-cv_tools_6_7
-cv_tools_7_8
+# Content View(s):
+------------------
+cv_rhel8tools_zabbix , cv_tools , cv_tools_6_7 , cv_tools_7_8
 
 ...
 
@@ -60,17 +59,11 @@ cv_tools_7_8
 Presentation of Individual Repositories
 #######################################
 
-- ACME/Library/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os
-Number of RPM in the Metadata ..: 62
-Number of RPM in the DB ........: 62
-
-- ACME/prod/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os
-Number of RPM in the Metadata ..: 62
-Number of RPM in the DB ........: 62
-
-- ACME/Library/cv_rhel8tools_zabbix/custom/zabbix/zabbix
-Number of RPM in the Metadata ..: 12
-Number of RPM in the DB ........: 12
+Repo_Path                                                                              RPM_Count_in_Metadata   RPM_Count_in_DB
+---------                                                                              ---------------------   ---------------
+**ACME/Library/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os    62                      62
+**ACME/prod/cv_tools/content/dist/rhel/server/7/7Server/x86_64/sat-tools/6.10/os       62                      62
+**ACME/Library/cv_rhel8tools_zabbix/custom/zabbix/zabbix                               12                      12
 
 ...
 
