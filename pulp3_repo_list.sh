@@ -41,14 +41,17 @@ basic_info()
   cv_name=$(cat $STD_FILE | grep "^- " | cut -d/ -f3 | sed -e 's/^- //g' | grep -v -E '(^content$|^custom$)'| sort -u)
 
 
-  echo "# Organization(s)" >> $REPORT_FILE
-  echo "$org_name" >> $REPORT_FILE
+  echo "# Organization(s):" >> $REPORT_FILE
+  echo "------------------" >> $REPORT_FILE
+  echo "$org_name" | xargs echo | sed 's/ / , /g' >> $REPORT_FILE
   echo >> $REPORT_FILE
-  echo "# LifeCycle(s)" >> $REPORT_FILE
-  echo "$lifecycle_name" >> $REPORT_FILE
+  echo "# LifeCycle(s):" >> $REPORT_FILE
+  echo "---------------" >> $REPORT_FILE
+  echo "$lifecycle_name" | xargs echo | sed 's/ / , /g' >> $REPORT_FILE
   echo >> $REPORT_FILE
-  echo "# Content View(s)" >> $REPORT_FILE
-  echo "$cv_name" >> $REPORT_FILE
+  echo "# Content View(s):" >> $REPORT_FILE
+  echo "------------------" >> $REPORT_FILE
+  echo "$cv_name" | xargs echo | sed 's/ / , /g' >> $REPORT_FILE
   echo >> $REPORT_FILE
   echo >> $REPORT_FILE
   echo >> $REPORT_FILE
@@ -62,26 +65,28 @@ detailed_repo_info()
   echo "" >> $REPORT_FILE
 
   repo_list=$(cat $STD_FILE | grep "^- " | sed -e 's/^- //g')
+
+  echo -e "Repo_Path\tRPM_Count_in_Metadata\tRPM_Count_in_DB" >> $TEMP_FILE
+  echo -e "---------\t---------------------\t---------------\n" >> $TEMP_FILE
+
   for b in $repo_list
   do
-    echo - $b >> $REPORT_FILE
 
     PULP_PATH="/var/lib/pulp/media"
 
-    number_of_packages=$(cat $STD_FILE | grep "$b" | grep .rpm | wc -l)
-    repomd_artifact=$(cat $STD_FILE | grep "$b" | grep repomd.xml | awk '{print $NF}')
-    primary_file=$(cat $PULP_PATH/$repomd_artifact | grep primary.xml | cut -d\" -f2)
-    primary_file_artifact=$(cat $STD_FILE | grep "$b" | grep "$primary_file" | awk '{print $NF}')
-    number_of_packages_metadata=$(zcat $PULP_PATH/$primary_file_artifact | grep -o "packages=\"".* | cut -d\" -f2)
+    number_of_packages=$(cat $STD_FILE 2>/dev/null | grep "$b" | grep .rpm | wc -l)
+    repomd_artifact=$(cat $STD_FILE 2>/dev/null | grep "$b" | grep repomd.xml | awk '{print $NF}')
+    primary_file=$(cat $PULP_PATH/$repomd_artifact 2>/dev/null | grep primary.xml | cut -d\" -f2)
+    primary_file_artifact=$(cat $STD_FILE 2>/dev/null | grep "$b" | grep "$primary_file" | awk '{print $NF}')
+    number_of_packages_metadata=$(zcat $PULP_PATH/$primary_file_artifact 2>/dev/null | grep -o "packages=\"".* | cut -d\" -f2)
 
-    echo "Number of RPM in the Metadata ..: $number_of_packages_metadata" >> $REPORT_FILE
-    echo "Number of RPM in the DB ........: $number_of_packages" >> $REPORT_FILE
+    echo -e "**$b\t$number_of_packages_metadata\t$number_of_packages"
 
-    echo >> $REPORT_FILE
+  done  >> $TEMP_FILE
+  cat $TEMP_FILE | column -t  >> $REPORT_FILE 
+  rm -f $TEMP_FILE
 
-  done
-  echo >> $REPORT_FILE
-  echo >> $REPORT_FILE
+  echo -e "\n\n\n" >> $REPORT_FILE
 
 }
 
@@ -109,8 +114,11 @@ general_cv_info()
         count_entry=$(grep -A2 "$full_filter" $REPORT_FILE | wc -l)
 
         if [ $count_entry -ne 0 ]; then
-          total_cv_metadata=$(grep -A2 "$full_filter" $REPORT_FILE | grep Metadata | awk '{print $NF}' | paste -s -d+ | bc)
-          total_cv_DB=$(grep -A2 "$full_filter" $REPORT_FILE | grep DB | awk '{print $NF}' | paste -s -d+ | bc)
+
+          ## $2 is RPM_Count_in_Metadata  and $3 is RPM_Count_in_DB for each value matched by $full_filter
+
+          total_cv_metadata=$(grep "^\*\*" $REPORT_FILE | grep "$full_filter" | awk '{print $2}' | grep -v "^$" | paste -s -d+ | bc)
+          total_cv_DB=$(grep "^\*\*" $REPORT_FILE | grep "$full_filter" | awk '{print $3}' | grep -v "^$" | paste -s -d+ | bc)
 	  echo -e "$org\t$lfc\t$cv\t$total_cv_metadata\t$total_cv_DB"
         fi
 
@@ -130,10 +138,11 @@ final()
 }
 
 
-# Main
+# Execute All in sequence
 
-main
-basic_info
-detailed_repo_info
-general_cv_info
-final
+ main
+ basic_info
+ detailed_repo_info
+ general_cv_info
+ final
+
