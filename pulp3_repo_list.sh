@@ -16,6 +16,10 @@ TEMP_FILE="/var/tmp/pulp3_report_tmpdata.txt"
 
 main()
 {
+
+  echo "select base_path,pulp_created,pulp_last_updated from core_distribution" | su - postgres -c "psql pulpcore" >> $STD_FILE
+  echo "" >> $STD_FILE
+
   path_of_repos=$(echo "select base_path from core_distribution" | su - postgres -c "psql pulpcore" | sed '1,2d' | grep -v ^$ | grep -v ^\( | sed -e 's/^ //g')
 
   for b in $path_of_repos
@@ -125,8 +129,44 @@ general_cv_info()
       done
     done
   done >> $TEMP_FILE
+
+
+  # New for to check the default organization view
+  for org in $org_name
+  do
+    total_cv_metadata=$(grep "^\*\*" $REPORT_FILE | grep -E "($org/Library/content/)" | awk '{print $2}' | grep -v "^$" | paste -s -d+ | bc)
+    total_cv_DB=$(grep "^\*\*" $REPORT_FILE | grep -E "($org/Library/content/)" | awk '{print $3}' | grep -v "^$" | paste -s -d+ | bc)
+    echo -e "$org\tLibrary\tDefaultOrganizationView\t$total_cv_metadata\t$total_cv_DB"
+  done >> $TEMP_FILE
+ 
   cat $TEMP_FILE | column -t  >> $REPORT_FILE 
   rm -f $TEMP_FILE
+  echo -e "\n\n\n" >> $REPORT_FILE
+  
+}
+
+adding_timestamp()
+{
+  echo "###############################################" >> $REPORT_FILE
+  echo "Repositories Creation date and Last Update time" >> $REPORT_FILE
+  echo "###############################################" >> $REPORT_FILE
+  echo "" >> $REPORT_FILE
+
+
+  # just to keep the format and space in the beggining of the line
+  IFS=$'\n'
+  for line in $(cat $STD_FILE)
+  do
+    check=$(echo $line | grep -E '(.*\)$)' | wc -l)
+    if [ $check -eq 1 ]; then
+      break
+    else
+      echo $line >> $REPORT_FILE
+    fi
+  done
+
+  unset IFS
+
   echo -e "\n------ End of Report ------" >> $REPORT_FILE
 }
 
@@ -144,5 +184,5 @@ final()
  basic_info
  detailed_repo_info
  general_cv_info
+ adding_timestamp
  final
-
