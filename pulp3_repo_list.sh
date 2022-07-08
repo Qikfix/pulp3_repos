@@ -78,10 +78,11 @@ detailed_repo_info()
 
     PULP_PATH="/var/lib/pulp/media"
 
-    number_of_packages=$(cat $STD_FILE 2>/dev/null | grep "$b" | grep .rpm | wc -l)
-    repomd_artifact=$(cat $STD_FILE 2>/dev/null | grep "$b" | grep repomd.xml | awk '{print $NF}')
+    # Adding space after $b to match the exact repo path
+    number_of_packages=$(cat $STD_FILE 2>/dev/null | grep "$b " | grep .rpm | wc -l)
+    repomd_artifact=$(cat $STD_FILE 2>/dev/null | grep "$b " | grep repomd.xml | awk '{print $NF}')
     primary_file=$(cat $PULP_PATH/$repomd_artifact 2>/dev/null | grep primary.xml | cut -d\" -f2)
-    primary_file_artifact=$(cat $STD_FILE 2>/dev/null | grep "$b" | grep "$primary_file" | awk '{print $NF}')
+    primary_file_artifact=$(cat $STD_FILE 2>/dev/null | grep "$b " | grep "$primary_file" | awk '{print $NF}')
     number_of_packages_metadata=$(zcat $PULP_PATH/$primary_file_artifact 2>/dev/null | grep -o "packages=\"".* | cut -d\" -f2)
 
     echo -e "**$b\t$number_of_packages_metadata\t$number_of_packages"
