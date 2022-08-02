@@ -135,8 +135,8 @@ general_cv_info()
   # New for to check the default organization view
   for org in $org_name
   do
-    total_cv_metadata=$(grep "^\*\*" $REPORT_FILE | grep -E "($org/Library/content/)" | awk '{print $2}' | grep -v "^$" | paste -s -d+ | bc)
-    total_cv_DB=$(grep "^\*\*" $REPORT_FILE | grep -E "($org/Library/content/)" | awk '{print $3}' | grep -v "^$" | paste -s -d+ | bc)
+    total_cv_metadata=$(grep "^\*\*" $REPORT_FILE | egrep "($org/Library/content/)|($org/Library/custom/)" | awk '{print $2}' | grep -v "^$" | paste -s -d+ | bc)
+    total_cv_DB=$(grep "^\*\*" $REPORT_FILE | egrep "($org/Library/content/)|($org/Library/custom/)" | awk '{print $3}' | grep -v "^$" | paste -s -d+ | bc)
     echo -e "$org\tLibrary\tDefaultOrganizationView\t$total_cv_metadata\t$total_cv_DB"
   done >> $TEMP_FILE
  
